@@ -1,24 +1,54 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column              | Type    | Options                   |
+| ------------------- | ------- | ------------------------- |
+| nickname            | string  | null: false               |
+| email               | string  | null: false, unique: true |
+| encrypted_password  | string  | null: false               |
+| last_name           | string  | null: false               |
+| first_name          | string  | null: false               |
+| birthday            | date    | null: false               |
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :posts
 
-* Configuration
+##　posts テーブル
 
-* Database creation
+| Column             | Type       | Options           |
+| ------------------ | ---------- | ----------------- |
+| drink_name         | string     | null: false       |
+| drink_info         | text       | null: false       |
+| category_id        | integer    | null: false       |
+| calorie            | integer    | null: false       |
+| price              | integer    | null: false       |
+| user               | references | foreign_key: true |
 
-* Database initialization
+### Association
 
-* How to run the test suite
+- belongs_to :user
+- has_many :post_toppings
 
-* Services (job queues, cache servers, search engines, etc.)
+## toppings テーブル
 
-* Deployment instructions
+| Column        | Type    | Options     |
+| ------------- | ------- | ----------- |
+| calorie       | integer | null: false |
+| topping_name  | string  | null: false |
+| price         | integer | null: false |
 
-* ...
+### Association
+
+- has_many :post_toppings
+
+## post_toppings テーブル
+
+| Column  | Type       | Options           |
+| ------- | ---------- | ----------------- |
+| post    | references | foreign_key: true |
+| topping | references | foreign_key: true |
+
+- belongs_to :post
+- belongs_to :topping
